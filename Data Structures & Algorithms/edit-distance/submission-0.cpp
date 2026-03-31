@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        function<int(int, int)> dfs = [&] (int i, int j) {
+            if (i == word1.size()) {
+                return (int)word2.size() - j;
+            }
+
+            if (j == word2.size()) {
+                return (int)word1.size() - i;
+            }
+
+            int res = 0;
+            if (word1[i] == word2[j]) {
+                res = dfs(i + 1, j + 1);
+            } else {
+                res = 1 + min(dfs(i + 1, j + 1), min(dfs(i + 1, j), dfs(i, j + 1)));
+            }
+            return res;
+        };
+
+        return dfs(0, 0);
+    }
+};
